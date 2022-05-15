@@ -2,17 +2,17 @@
 
 pragma solidity ^0.6.6;
 
-import "./B.sol";
+import "./IContractB.sol";
 import "./deps/PriceAware.sol";
 import "./deps/ProxyConnector.sol";
 
 contract ContractA is ProxyConnector {
-    ContractB private immutable contractB;
+    IContractB private immutable contractB;
 
     uint256 private lastValueFromContractB;
 
     constructor(address _bContractAddr) public {
-        contractB = ContractB(_bContractAddr);
+        contractB = IContractB(_bContractAddr);
     }
 
     function writeInContractB() public {
@@ -22,7 +22,7 @@ contract ContractA is ProxyConnector {
         // But to proxy calldata we need to add a bit more instructions
         proxyCalldata(
             address(contractB),
-            abi.encodeWithSelector(ContractB.writeValue.selector)
+            abi.encodeWithSelector(IContractB.writeValue.selector)
         );
     }
 
@@ -44,7 +44,7 @@ contract ContractA is ProxyConnector {
         // But to proxy calldata we need to add a bit more instructions
         bytes memory bytesResponse = proxyCalldata(
             address(contractB),
-            abi.encodeWithSelector(ContractB.getValue.selector)
+            abi.encodeWithSelector(IContractB.getValue.selector)
         );
         lastValueFromContractB = toUint256(bytesResponse);
     }

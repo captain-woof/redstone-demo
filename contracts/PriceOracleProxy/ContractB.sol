@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.6.6;
+pragma solidity ^0.8.2;
 
-import "./deps/PriceAwareOwnable.sol";
+import "redstone-evm-connector/lib/contracts/message-based/PriceAwareOwnable.sol";
 
 contract ContractB is PriceAware {
     uint256 private lastValue = 0;
